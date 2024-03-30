@@ -1,1 +1,1 @@
-pkmn_walk_flipped
+pkmn_surface
