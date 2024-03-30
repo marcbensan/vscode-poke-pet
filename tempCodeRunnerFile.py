@@ -1,0 +1,1 @@
+pkmn_walk_flipped
