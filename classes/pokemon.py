@@ -39,7 +39,7 @@ class Pokemon(pygame.sprite.Sprite):
         self.pkmn_index = 0
         self.image = self.pkmn_walk[self.pkmn_index]
         self.rect = self.image.get_rect(midbottom = (0, 100))
-        self.speed = 200
+        self.speed = random.randint(45, 130)
         self.is_walking = False     
         self.pos = pygame.math.Vector2(self.rect.midbottom)
         self.direction = pygame.math.Vector2(1, 0)
@@ -51,7 +51,7 @@ class Pokemon(pygame.sprite.Sprite):
     def update(self, dt):
         self.move_sprite(dt)
         self.animation_state()
-        self.idle_sprite()
+        # self.idle_sprite()
         # self.is_walking()
 
     def idle_sprite(self):
