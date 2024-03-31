@@ -1,1 +1,1 @@
-game_width
+ print(pkmn_rect.x)
