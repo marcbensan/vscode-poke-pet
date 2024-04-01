@@ -38,63 +38,103 @@ class Pokemon(pygame.sprite.Sprite):
 
         self.pkmn_index = 0
         self.image = self.pkmn_walk[self.pkmn_index]
-        self.rect = self.image.get_rect(midbottom = (0, 100))
-        self.speed = random.randint(45, 130)
+        self.rect = self.image.get_rect(midbottom = (random.randint(30, 360), 100))
+        self.speed = random.randint(1, 5)
         self.is_walking = False     
         self.pos = pygame.math.Vector2(self.rect.midbottom)
         self.direction = pygame.math.Vector2(1, 0)
+        self.x_direction = 1
 
         # Variables for animations and movement
-        self.walking_distance = random.randint(20, 120)
+        pkmn_states = ["walk", "idle"]
+        self.current_state = random.choice(pkmn_states)
+        self.walking_distance = random.randint(20, 600)
         self.distance_walked = 0
+        self.idle_timer = 0
+        self.idle_time = random.randint(100, 300)
+        self.sprite_direction = [self.pkmn_walk, self.pkmn_walk_flipped]
+        self.chosen_direction = random.choice(self.sprite_direction)
 
-    def update(self, dt):
-        self.move_sprite(dt)
-        self.animation_state()
-        # self.idle_sprite()
+    def update(self):
+        self.animation_state(self.current_state)
+        if self.current_state == "idle":
+            self.idle_sprite()
+        elif self.current_state == "walk":
+            self.move_sprite()
+
         # self.is_walking()
 
     def idle_sprite(self):
-        self.pkmn_index += 0.001
+        self.pkmn_index += 0.1
 
         if self.pkmn_index >= len(self.pkmn_idle):
             self.pkmn_index = 0
 
         self.image = self.pkmn_idle[int(self.pkmn_index)]
 
-    def animation_state(self):
+        if self.current_state == "idle":
+             # Increment idle timer
+            self.idle_timer += 1
+
+            # Check if idle time is reached
+            if self.idle_timer >= self.idle_time:
+                self.current_state = "walk"  # Switch back to walking state
+                self.idle_timer = 0  # Reset idle timer
+                self.walking_distance = random.randint(20, 500)
+                self.x_direction = random.choice([-1, 1])
+                self.speed = random.uniform(0.5, 1.3)
+                if self.x_direction == -1:
+                    self.chosen_direction = self.sprite_direction[0]
+                else:
+                    self.chosen_direction = self.sprite_direction[1]
+
+    def animation_state(self, current_state):
         # Walking animation
-        self.pkmn_index += 0.001
+        self.pkmn_index += 0.1
 
-        if self.pkmn_index >= len(self.pkmn_walk):
-            self.pkmn_index = 0
+        if self.current_state == "walk":
+            
+            if self.pkmn_index >= len(self.pkmn_walk):
+                self.pkmn_index = 0
 
-        if self.direction.x < 0:
-            self.image = self.pkmn_walk[int(self.pkmn_index)]  # Convert pkmn_index to an integer
-        else:
-            self.image = self.pkmn_walk_flipped[int(self.pkmn_index)]  # Convert pkmn_index to an integer
+            if self.x_direction == -1:
+                self.image = self.sprite_direction[0][int(self.pkmn_index)] # look right
+            elif self.x_direction == 1:
+                self.image = self.sprite_direction[1][int(self.pkmn_index)] # look left 
+            else:
+                self.image = self.chosen_direction[int(self.pkmn_index)]
 
-    def move_sprite(self, dt):
-        # # Movement logic
-        # self.rect += speed
-        # distance_walked += 1  # Update distance walked (only magnitude considered)
+        elif current_state == "idle":
+            if self.pkmn_index >= len(self.pkmn_idle):
+                self.pkmn_index = 0
 
+            self.image = self.pkmn_idle[int(self.pkmn_index)]
+
+    def move_sprite(self):
         # # Boundary check
-        if self.rect.right >= game_width:
-            self.direction.x = -1
-        elif self.rect.left <= 0:
-            self.direction.x = 1
+        if self.current_state == "walk":
+            if self.rect.right >= game_width:
+                self.x_direction = -1
+            elif self.rect.left <= 0:
+                self.x_direction = 1
 
-        self.pos += self.direction * self.speed * dt
-        self.rect.midbottom = self.pos
+            # Update direction vector
+            self.direction.x = self.x_direction * self.speed
+     
+            self.pos += self.direction
+            self.rect.midbottom = self.pos
 
-    def is_walking(self):
-        for sprite in self.pkmn_walk:
-            if self.image == sprite:
-                is_walking = True
-                return True
-        is_walking = False
-        return False
+              # Update distance walked
+            self.distance_walked += 1
+
+            # Check if walking distance reached
+            if self.distance_walked >= self.walking_distance:
+                self.distance_walked = 0
+                self.current_state = "idle"  # Switch to idle state
+                self.idle_time = random.randint(100, 300)
+
+    def check_walk(self):
+        return self.current_state == "walk"
         
 
     

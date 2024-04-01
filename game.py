@@ -37,20 +37,21 @@ while True:
     screen.blit(platform_surface, (0, 100))
     
     #clock tick
-    dt = clock.tick() / 1000
+    dt = clock.tick(60)
   
     # Run animation
     # Pokemon.animation_state(pokemon_instance)
 
     # Move the sprite if it's in the walking animation
-    # if pokemon_instance.is_walking:
-    #     if distance_walked < walking_distance:
-    #         pokemon.move_sprite()
-    #     else:
-    #         distance_walked = 0
+    if pokemon_instance.check_walk():
+        if pokemon_instance.distance_walked < pokemon_instance.walking_distance:
+            pokemon_instance.animation_state("walk")
+            pokemon_instance.move_sprite()
+        else:
+            distance_walked = 0
 
     screen.blit(pokemon_instance.image, pokemon_instance.rect)
     pokemon.draw(screen)
-    pokemon.update(dt)
+    pokemon.update()
 
     pygame.display.update()
