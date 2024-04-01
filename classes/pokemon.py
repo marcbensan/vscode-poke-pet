@@ -91,12 +91,9 @@ class Pokemon(pygame.sprite.Sprite):
     def animation_state(self, current_state):
         # Walking animation
         self.pkmn_index += 0.1
-
-        if self.current_state == "walk":
-            
+        if self.current_state == "walk":          
             if self.pkmn_index >= len(self.pkmn_walk):
                 self.pkmn_index = 0
-
             if self.x_direction == -1:
                 self.image = self.sprite_direction[0][int(self.pkmn_index)] # look right
             elif self.x_direction == 1:
