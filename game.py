@@ -1,7 +1,6 @@
 import pygame
 import random
 from sys import exit
-from sprites.cyndaquil_sprites import pkmn_walk, pkmn_walk_flipped, pkmn_idle
 from classes.pokemon import Pokemon
 
 # Initialize pygame
@@ -37,11 +36,8 @@ while True:
     screen.blit(platform_surface, (0, 100))
     
     #clock tick
-    dt = clock.tick(60)
+    clock.tick(60)
   
-    # Run animation
-    # Pokemon.animation_state(pokemon_instance)
-
     # Move the sprite if it's in the walking animation
     if pokemon_instance.check_walk():
         if pokemon_instance.distance_walked < pokemon_instance.walking_distance:
