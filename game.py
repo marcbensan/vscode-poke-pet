@@ -1,5 +1,4 @@
 import pygame
-import random
 from sys import exit
 from classes.pokemon import Pokemon
 
@@ -36,6 +35,8 @@ while True:
     screen.blit(platform_surface, (0, 100))
     
     #clock tick
+    if pokemon_instance.current_state == "sleep":
+        clock.tick(30)
     clock.tick(60)
   
     # Move the sprite if it's in the walking animation
