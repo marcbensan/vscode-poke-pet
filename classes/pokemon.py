@@ -1,10 +1,6 @@
 import pygame
 import random
 
-# Size of the screen
-game_width = 400
-game_height = 100
-
 def load_animation(path, animation_type, num_frames, flip=False):
         frames = []
         for i in range(1, num_frames + 1):
@@ -20,6 +16,9 @@ def load_animation(path, animation_type, num_frames, flip=False):
 class Pokemon(pygame.sprite.Sprite): 
     def __init__(self):
         super().__init__()
+         # Size of the screen
+        self.game_width = 600
+        self.game_height = 300
 
         # LOAD ANIMATIONS #
         # walking animations
@@ -38,7 +37,7 @@ class Pokemon(pygame.sprite.Sprite):
       
         self.pkmn_index = 0
         self.image = self.pkmn_walk[self.pkmn_index]
-        self.rect = self.image.get_rect(midbottom = (random.randint(30, 360), 100))
+        self.rect = self.image.get_rect(midbottom = (random.randint(30, 360), 245))
         self.speed = random.uniform(0.3, 0.9)
         self.is_walking = False     
         self.pos = pygame.math.Vector2(self.rect.midbottom)
@@ -80,7 +79,7 @@ class Pokemon(pygame.sprite.Sprite):
 
         # Check if idle time is reached
         if self.idle_timer >= self.idle_time:
-            sleep_chance = random.randint(1, 10)
+            sleep_chance = random.randint(1, 2)
             # check sleep
             if sleep_chance == 1:
                 self.current_state = "sleep"
@@ -166,7 +165,7 @@ class Pokemon(pygame.sprite.Sprite):
     def move_sprite(self):
         # # Boundary check
         if self.current_state == "walk":
-            if self.rect.right >= game_width:
+            if self.rect.right >= self.game_width:
                 self.x_direction = -1
             elif self.rect.left <= 0:
                 self.x_direction = 1
@@ -195,13 +194,16 @@ class Pokemon(pygame.sprite.Sprite):
                 self.idle_time = random.randint(100, 300)
                 
                 yawn_anim = random.randint(1, 100)
-                if yawn_anim == 1:
-                    self.idle_time = random.randint(30, 80)
+                if yawn_anim == 1:    
+                    self.idle_time = random.randint(30, 55)              
                     self.current_state = "yawn"
 
     def check_walk(self):
         return self.current_state == "walk"
-        
+    
+    def resize_screen(self, width, height):
+        self.game_width = width
+        self.game_height = height
 
     
         
