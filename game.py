@@ -29,7 +29,7 @@ while True:
             if pokemon_instance.current_state == "sleep" and pokemon_instance.rect.collidepoint(event.pos):
                 # Change state to yawn
                 pokemon_instance.current_state = "yawn"    
-                pokemon_instance.idle_time = random.randint(20, 40)
+                pokemon_instance.idle_time = random.randint(10, 25)
                 pokemon_instance.idle_timer = 0             
 
         if event.type == pygame.VIDEORESIZE:

@@ -79,11 +79,11 @@ class Pokemon(pygame.sprite.Sprite):
 
         # Check if idle time is reached
         if self.idle_timer >= self.idle_time:
-            sleep_chance = random.randint(1, 2)
+            sleep_chance = random.randint(1, 10)
             # check sleep
             if sleep_chance == 1:
                 self.current_state = "sleep"
-                self.idle_time = random.randint(800, 1200)
+                self.idle_time = random.randint(1200, 5000)
             
             else:
                 self.current_state = "walk"  # Switch back to walking state
