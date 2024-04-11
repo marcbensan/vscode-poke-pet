@@ -34,6 +34,11 @@ class Pokemon(pygame.sprite.Sprite):
 
         # sleep animation
         self.pkmn_sleep = load_animation("cyndaquil", "sleep", 3, False)
+
+        # jumping animation
+        self.pkmn_crouch = load_animation("cyndaquil", "crouch", 2, False)
+        self.pkmn_jump = load_animation("cyndaquil", "jump", 2, False)
+        self.pkmn_jump_air = load_animation("cyndaquil", "air", 2, False)
       
         self.pkmn_index = 0
         self.image = self.pkmn_walk[self.pkmn_index]
@@ -65,6 +70,54 @@ class Pokemon(pygame.sprite.Sprite):
             self.yawn_sprite()
         elif self.current_state == "sleep":
             self.sleep_sprite()
+        # elif self.current_state == "jump":
+        #     self.jump_sprite()
+
+
+    # def jump_sprite(self):
+    #     self.pkmn_index += 0.1
+
+    #     if self.pkmn_index >= len(self.pkmn_crouch):
+    #         self.pkmn_index = 0
+
+    #     # crouch section
+    #     self.image = self.pkmn_crouch
+
+    #     # Increment idle timer
+    #     self.idle_timer += 1
+
+    #     if self.idle_timer >= self.idle_time:
+    #         self.pkmn_index = 0
+    #         while self.pkmn_index < len(self.pkmn_jump):
+    #             self.pkmn_index += 0.1
+    #             # jump 2 frames
+    #             self.image = self.pkmn_jump
+            
+    #         self.pkmn_index = 0
+    #         # mid air jump
+    #         if self.pkmn_index >= len(self.pkmn_jump_air):
+    #             self.pkmn_index = 0
+
+    #         if self.rect.right >= self.game_width:
+    #             self.x_direction = -1
+    #         elif self.rect.left <= 0:
+    #             self.x_direction = 1
+            
+    #          # Update direction vector
+    #         self.direction.x = self.x_direction * self.speed
+     
+    #         self.pos += self.direction
+    #         self.rect.midbottom = self.pos
+
+    #           # Update distance walked
+    #         self.distance_walked += 1
+
+    #         # Check if walking distance reached
+    #         if self.distance_walked >= self.walking_distance:
+    #             self.distance_walked = 0
+    #             self.current_state = "idle"  # Switch to idle state
+    #             self.idle_time = random.randint(100, 300)
+
 
     def idle_sprite(self):
         self.pkmn_index += 0.1
@@ -79,11 +132,17 @@ class Pokemon(pygame.sprite.Sprite):
 
         # Check if idle time is reached
         if self.idle_timer >= self.idle_time:
-            sleep_chance = random.randint(1, 10)
+            chance = random.randint(1, 2)
             # check sleep
-            if sleep_chance == 1:
+            if chance == 1:
                 self.current_state = "sleep"
                 self.idle_time = random.randint(1200, 5000)
+
+            # if chance == 2:
+            #     self.current_state = "jump"
+            #     self.idle_time = random.randint(20, 30)
+            #     self.walking_distance = random.randint(30, 50)
+            #     self.distance_walked = 0
             
             else:
                 self.current_state = "walk"  # Switch back to walking state
