@@ -1,7 +1,7 @@
 import pygame
 import random
 from sys import exit
-from classes.pokemon import Pokemon
+from client.scripts.pokemon import Pokemon
 
 # Initialize pygame
 pygame.init()

@@ -1,1 +1,0 @@
- print(pkmn_rect.x)
